@@ -4,6 +4,7 @@ import utils.Commons;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,6 +13,26 @@ public class VeriDNSReqBody extends VeriDNSBody {
         this.domainName = domainName;
         this.numberOfAddr = numberOfAddr;
         this.IPAddress = IPAddress;
+    }
+
+    public String getDomainName() {
+        return this.domainName;
+    }
+
+    public List<String> getIPAddress() {
+        List<String> IPStrings = new ArrayList<>();
+        for (int i = 0; i < this.IPAddress.size(); i ++) {
+            List<String> ipFragments = new ArrayList<>();
+            for (int j = 0; j < Commons.Length.IPv4; j ++) {
+                ipFragments.add(Integer.toString(Byte.toUnsignedInt((this.IPAddress.get(i))[j])));
+            }
+            IPStrings.add(ipFragments.get(0) + "." +
+                          ipFragments.get(1) + "." +
+                          ipFragments.get(2) + "." +
+                          ipFragments.get(3));
+        }
+
+        return IPStrings;
     }
 
     public byte[] getRawData() {

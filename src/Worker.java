@@ -66,26 +66,45 @@ public class Worker implements Runnable {
                 requestPacket.flip();
                 requestPacket.get(requestPacketRawData);
 
+                // start handshake
+                try {
+                    clientSocket.startHandshake();
+                } catch (IOException e) {
+                    System.err.println("Error occurs when sending VeriDNS Request: " + e.getMessage());
+                    e.printStackTrace();
+                    Commons.closeSocket(clientSocket);
+                    break;
+                }
+
                 // sent the VeriDNS request message
-                try (OutputStream outputStream = clientSocket.getOutputStream()) {
+                try {
+                    OutputStream outputStream = clientSocket.getOutputStream();
                     outputStream.write(requestPacketRawData);
+                    System.out.println("==========================================");
+                    System.out.println("VeriDNS Request:");
+                    System.out.println("Domain name: " + requestBody.getDomainName());
+                    for (int idx = 0; idx < requestBody.getIPAddress().size(); idx ++) {
+                        System.out.println(requestBody.getIPAddress().get(idx));
+                    }
+                    System.out.println("==========================================\n");
                 } catch (IOException e) {
                     System.err.println("Cannot send VeriDns request message: " + e.getMessage());
                     e.printStackTrace();
                     Commons.closeSocket(clientSocket);
-                    return;
+                    break;
                 }
 
                 // receive the VeriDns response message
                 // get the response message
-                try (InputStream inputStream = clientSocket.getInputStream()) {
+                try {
                     // get the response header
+                    InputStream inputStream = clientSocket.getInputStream();
                     VeriDNSHeader responseHeader = VeriDNSHeader.parse(inputStream);
 
                     // check the response header
                     if (!responseHeader.isHeaderCorrect(new Type(Type.VERIDNS_RESP), sequenceNumber)) {
                         Commons.closeSocket(clientSocket);
-                        return;
+                        break;
                     }
 
                     // get the response body
@@ -93,16 +112,19 @@ public class Worker implements Runnable {
 
                     // print the alert if any record is poisoned
                     if (!responseBody.getVerification()) {
+                        System.err.println("==============================");
                         System.err.println(responseBody.getNumberOfAddr() + " poisoned A RR(s) detected!");
+                        System.err.println("Domain name: " + requestBody.getDomainName());
                         for (String ip : responseBody.getMaliciousIPs()) {
                             System.err.println(ip);
                         }
+                        System.err.println("==============================\n");
                     }
                 } catch (IOException e) {
                     System.err.println("Cannot receive the VeriDNS response message: " + e.getMessage());
                     e.printStackTrace();
                     Commons.closeSocket(clientSocket);
-                    return;
+                    break;
                 }
 
                 // close the socket

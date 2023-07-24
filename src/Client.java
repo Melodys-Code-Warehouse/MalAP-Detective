@@ -19,6 +19,16 @@ public class Client {
     private List<String> branchIPAddresses = null;
 
     public void launch() {
+        System.out.println(
+                " __      __       _ _____  _   _  _____        _____ _      _____ ______ _   _ _______ \n" +
+                " \\ \\    / /      (_)  __ \\| \\ | |/ ____|      / ____| |    |_   _|  ____| \\ | |__   __|\n" +
+                "  \\ \\  / /__ _ __ _| |  | |  \\| | (___ ______| |    | |      | | | |__  |  \\| |  | |   \n" +
+                "   \\ \\/ / _ \\ '__| | |  | | . ` |\\___ \\______| |    | |      | | |  __| | . ` |  | |   \n" +
+                "    \\  /  __/ |  | | |__| | |\\  |____) |     | |____| |____ _| |_| |____| |\\  |  | |   \n" +
+                "     \\/ \\___|_|  |_|_____/|_| \\_|_____/       \\_____|______|_____|______|_| \\_|  |_|   \n" +
+                "                                                                                       \n" +
+                "                                                                                       ");
+
         System.out.println("Service starts at " + new Date());
 
         // obtain the IP address of local branch servers
@@ -67,6 +77,10 @@ public class Client {
 
         // send the Branch Server Address Query to the Root Server
         try {
+            System.setProperty("javax.net.ssl.trustStore", "C:\\Program Files\\Java\\jdk-19\\lib\\security\\cacerts");
+            System.setProperty("javax.net.ssl.trustStorePassword", "changeit"); // Default password for the Java truststore is "changeit"
+            System.setProperty("javax.net.ssl.trustStoreType", "JKS");
+            System.setProperty("javax.net.ssl.trustStoreAlias", "DOTAGroup8");
             clientSocket.startHandshake();
         } catch (IOException e) {
             System.err.println("Handshake failed: " + e.getMessage());
@@ -75,7 +89,9 @@ public class Client {
             System.exit(1);
         }
 
-        try (OutputStream outputStream = clientSocket.getOutputStream()) {
+
+        try {
+            OutputStream outputStream = clientSocket.getOutputStream();
             outputStream.write(queryPacketRawData);
         } catch (IOException e) {
             System.err.println("An error occurs when sending Branch Server Address Query to the root server: " + e.getMessage());
@@ -85,13 +101,14 @@ public class Client {
         }
 
         // obtain the answer from the root server
-        try (InputStream inputStream = clientSocket.getInputStream()) {
+        try {
             // get the answer header object
+            InputStream inputStream = clientSocket.getInputStream();
             VeriDNSHeader answerHeader = VeriDNSHeader.parse(inputStream);
 
             // verify the msg
             // verify the type
-            if (!answerHeader.isHeaderCorrect(new Type(Type.BRANCH_SERVER_ADDR_QUERY), sequenceNumber)) {
+            if (!answerHeader.isHeaderCorrect(new Type(Type.BRANCH_SERVER_ADDR_ANS), sequenceNumber)) {
                 Commons.closeSocket(clientSocket);
                 System.exit(1);
             }
