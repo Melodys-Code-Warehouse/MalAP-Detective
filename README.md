@@ -4,7 +4,7 @@
 
 Sort in the alphabetic order:
 
-- @ChaoHanley
+- @[ChaoHanley](https://github.com/ChaoHanley)
 - @SuiseiKawaii
 - @YuanHansen2233
 - @melody0123
@@ -18,6 +18,6 @@ This is a tool for end users to detect malicious access point on their own machi
 
 ### 3.1 ARP Spoofing Detection
 
+Since in ARP spoofing the attacker needs to send ARP packets to the gateway and then to the victim machine, we in fact update the ARP cache with the gateway's IP address corresponding to the attacker's mac address. An obvious way to detect this is to send an ARP packet to the gateway several times to get the gateway's mac address, and compare it with the mac address in the previous packet, if it is not the same, it means that it has suffered an ARP spoofing attack.
 
 
-### 3.2 DNS Spoofing Detection
