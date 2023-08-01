@@ -1,6 +1,6 @@
 # Malicious Access Point Detective (MalAP Detective)
 
-**Note: The `main` branch only contains this `	README.md`. Please find the corresponding source code under other branches.**
+**Note: The `main` branch only contains this `README.md`. Please find the corresponding source code under other branches.**
 
 ## 1 Collaborators 
 
