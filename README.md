@@ -23,6 +23,6 @@ Since in ARP spoofing the attacker needs to send ARP packets to the gateway and 
 ## 4 Result
 Here is the result.  
 
-As you can see who is the imposter and who is under the attack.
+You can see who is the imposter and who is under the attack.
 
 ![result](https://github.com/QuantumSecLab/MalAP-Detective/blob/arp-spoofing/result.png)
