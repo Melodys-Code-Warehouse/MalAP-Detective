@@ -34,7 +34,7 @@ geoip2~=4.7.0
 ​	**To start the server:**
 
 - Make sure you have allowed the application to **access the network through port 4433**. (can be changed)
-- Make sure you have successfully **installed the `geoip database`** and store it to **current runtime directory.** 
+- Make sure you have successfully **installed the `geoip database`** and store it to **`Resources`** folder 
   - To install the geoip database, access https://www.maxmind.com/en/accounts/current/geoip/downloads. Create your own account, then download `GeoLite2-City.mmdb`.
 
 ## 3. Appendix - VeriDNS Protocol
