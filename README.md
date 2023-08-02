@@ -1,4 +1,4 @@
-### Malicious Access Point Detective (MalAP Detective) - Server Side
+# Malicious Access Point Detective (MalAP Detective) - Server Side
 
 ## 1. Introduction
 
