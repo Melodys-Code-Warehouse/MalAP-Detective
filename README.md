@@ -19,14 +19,16 @@ Our DNS spoofing detector adopts the server-client model. In order to make it wo
 ### 2.1 Deploy the Root Server
 
 1. Go to the `dns-spoofing-server` branch. Clone the whole branch from the repository.
-2. Launch the server with the command `python3 Server.py`
+2. Read README.txt and follow the instructions to prepare the runtime environment.
+3. Launch the server with the command `python3 Server.py`
 
 ### 2.2 Deploy the Branch Server
 
 The root server and branch server are integrated into one program so the deployment steps are the same.
 
 1. Go to the `dns-spoofing-server` branch. Clone the whole branch from the repository.
-2. Launch the server with the command `python3 Server.py`
+2. Read README.txt and follow the instructions to prepare the runtime environment.
+3. Launch the server with the command `python3 Server.py`
 
 ### 2.3 Deploy the Client
 
@@ -68,7 +70,5 @@ This is a tool for end users to detect malicious access point on their own machi
 ## 4 Functions
 
 ### 4.1 ARP Spoofing Detection
-
-
 
 ### 4.2 DNS Spoofing Detection
